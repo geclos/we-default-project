@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const Home = (props, { user }) =>
   <h1>Hello, {user.company}</h1>

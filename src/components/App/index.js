@@ -1,5 +1,6 @@
-import {Link} from 'react-router'
-import React, { PropTypes } from 'react'
+import { Link } from 'react-router-dom'
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const App = ({children}, {logout}) => {
   return (
@@ -8,10 +9,10 @@ const App = ({children}, {logout}) => {
         <header className='col-1-1'>
           <ul>
             <li>
-              <Link activeClassName='active' to='/'>Home</Link>
+              <Link to='/'>Home</Link>
             </li>
             <li>
-              <Link activeClassName='active' to='/about'>About</Link>
+              <Link to='/about'>About</Link>
             </li>
             <li>
               <a href='#' onClick={logout}>Logout</a>

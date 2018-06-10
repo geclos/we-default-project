@@ -1,12 +1,13 @@
 import App from 'components/App'
 import { connect } from 'react-redux'
-import React, { PropTypes, Component } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import * as userActions from 'actions/user'
 
 const mapStateToProps = state => ({ user: state.user })
 const mapDispatchToProps = dispatch => ({ logout: () => dispatch(userActions.logout()) })
 
-class AppContainer extends Component {
+class AppContainer extends React.Component {
   static childContextTypes = {
     logout: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,

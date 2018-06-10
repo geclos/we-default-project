@@ -7,14 +7,29 @@ import { getUser } from 'actions/user'
 import { Provider } from 'react-redux'
 import { getItem } from 'utils/localStorage'
 import configureStore from 'configs/configureStore'
-import { Router, browserHistory } from 'react-router'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 const store = configureStore()
+
+// wrap <Route> and use this everywhere instead, then when
+// sub routes are added to any route it'll work
+const RouteWithSubRoutes = route => (
+  <Route
+    path={route.path}
+    render={props => (
+      <route.component {...props} routes={route.routes} />
+    )}
+  />
+);
 
 const main = () => {
   ReactDOM.render((
     <Provider store={store}>
-      <Router history={browserHistory} routes={routes} />
+      <Router>
+        <div>
+          {routes.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)}
+        </div>
+      </Router>
     </Provider>
   ), document.getElementById('root'))
 }

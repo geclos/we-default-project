@@ -1,31 +1,26 @@
-import AppContainer from '../containers/App'
 import { isUserAuthenticated } from 'configs/auth'
+import About from '../components/About'
+import AppContainer from '../containers/App'
+import Home from '../components/Home'
+import Login from '../components/Login'
 
-export default {
-  childRoutes: [{
+export default [
+  {
     path: '/',
     component: isUserAuthenticated(AppContainer),
-    indexRoute: {
-      getComponent (partialNextState, cb) {
-        require.ensure([], (require) => {
-          cb(null, require('components/Home'))
-        })
+    routes: [
+      {
+        path: '/',
+        component: Home
+      },
+      {
+        path: '/about',
+        component: About
       }
-    },
-    childRoutes: [{
-      path: '/about',
-      getComponent (partialNextState, cb) {
-        require.ensure([], (require) => {
-          cb(null, require('containers/About'))
-        })
-      }
-    }]
-  }, {
+    ]
+  },
+  {
     path: '/login',
-    getComponent (partialNextState, cb) {
-      require.ensure([], (require) => {
-        cb(null, require('containers/Login'))
-      })
-    }
-  }]
-}
+    component: Login
+  }
+]

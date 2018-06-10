@@ -1,10 +1,6 @@
 var path = require('path')
-var precss = require('precss')
 var webpack = require('webpack')
-var autoprefixer = require('autoprefixer')
-var validate = require('webpack-validator')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 var DEBUG = !process.argv.includes('--release')
 var GLOBALS = {
@@ -12,7 +8,7 @@ var GLOBALS = {
   __DEV__: DEBUG
 }
 
-module.exports = validate({
+module.exports = {
   entry: {
     'app': './src/index.js',
     'vendor': './src/vendor.js',
@@ -20,55 +16,55 @@ module.exports = validate({
   },
 
   resolve: {
-    extensions: ['', '.js', '.css'],
-    root: path.resolve(__dirname, '../src')
+    extensions: ['.js', '.css'],
+    modules: [path.resolve(__dirname, "../src"), "node_modules"]
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel',
+        loader: 'babel-loader',
         query: {
-          presets: ['es2015', 'react'],
+          presets: ['env', 'react'],
           plugins: ['transform-class-properties', 'transform-object-rest-spread']
         }
       },
       {
         test: /\.html$/,
         exclude: /node_modules/,
-        loader: 'html'
+        loader: 'html-loader'
       },
       {
-        loader: 'file?name=assets/[name].[hash].[ext]',
+        loader: 'file-loader?name=assets/[name].[hash].[ext]',
         exclude: /node_modules/,
         test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/
       },
       {
         test: /\.css$/,
         exclude: /node_modules/,
-        loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1!postcss')
+        use: [
+          {
+            loader: "style-loader"
+          },
+          {
+            loader: "css-loader",
+            options: {
+              sourceMap: true,
+              modules: true,
+              localIdentName: "[local]___[hash:base64:5]"
+            }
+          }
+        ]
       }
-    ]
-  },
-
-  postcss: function () {
-    return [
-      precss,
-      autoprefixer
     ]
   },
 
   plugins: [
     new webpack.DefinePlugin(GLOBALS),
-
-    new webpack.optimize.CommonsChunkPlugin({
-      name: ['app', 'vendor', 'polyfills']
-    }),
-
     new HtmlWebpackPlugin({
       template: 'src/index.html'
     })
   ]
-})
+}

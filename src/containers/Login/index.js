@@ -1,6 +1,7 @@
 import Login from 'components/Login'
 import { connect } from 'react-redux'
-import React, { PropTypes, Component } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import * as userActions from 'actions/user'
 
 const mapStateToProps = state => ({
@@ -12,7 +13,7 @@ const mapDispatchToProps = dispatch => ({
   getUser: token => dispatch(userActions.getUser(token))
 })
 
-class LoginContainer extends Component {
+class LoginContainer extends React.Component {
   static contextTypes = {
     router: PropTypes.object.isRequired
   }

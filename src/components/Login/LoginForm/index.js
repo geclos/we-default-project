@@ -1,6 +1,7 @@
 import cn from 'classnames'
 import { Button } from 'wideeyes-ui'
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const validate = values => {
   const errors = {}

@@ -5,8 +5,9 @@ var webpackMerge = require('webpack-merge')
 var commonConfig = require('./webpack.common.js')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-module.exports = validate(webpackMerge(commonConfig, {
+module.exports = webpackMerge(commonConfig, {
   devtool: 'source-map',
+  mode: 'production',
 
   output: {
     publicPath: '/',
@@ -16,9 +17,6 @@ module.exports = validate(webpackMerge(commonConfig, {
   },
 
   plugins: [
-    new webpack.NoErrorsPlugin(),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }),
     new ExtractTextPlugin('[name].[hash].css')
   ]
-}))
+})
